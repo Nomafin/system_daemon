@@ -1,3 +1,10 @@
 {
 	"name": "kvz/system_daemon"
+	"description": "A port of the PEAR class to create Daemons with pure PHP",
+	"require": {
+		"php": ">=5.3.0"
+	},
+	"autoload": {
+		"classmap": ["System/Daemon.php"]
+	}
 }
