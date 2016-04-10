@@ -1,5 +1,6 @@
 <?php
-/* vim: set noai expandtab tabstop=4 softtabstop=4 shiftwidth=4: */
+namespace System\Daemon\OS;
+
 /**
  * System_Daemon turns PHP-CLI scripts into daemons.
  * 
@@ -26,7 +27,6 @@
  * @link      http://trac.plutonia.nl/projects/system_daemon
  * * 
  */
-class System_Daemon_OS_Exception extends PEAR_Exception
+class Exception extends Exception
 {
-
 }

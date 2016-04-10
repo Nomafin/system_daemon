@@ -4,7 +4,9 @@
 	"require": {
 		"php": ">=5.3.0"
 	},
-	"autoload": {
-		"classmap": ["System/Daemon.php"]
-	}
+    "autoload": {
+        "psr-4": {
+            "System\\": "System/"
+        }
+    }
 }

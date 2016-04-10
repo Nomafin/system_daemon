@@ -1,5 +1,6 @@
 <?php
-/* vim: set noai expandtab tabstop=4 softtabstop=4 shiftwidth=4: */
+namespace System\Daemon;
+
 /**
  * System_Daemon turns PHP-CLI scripts into daemons.
  * 
@@ -26,7 +27,7 @@
  * @link      http://trac.plutonia.nl/projects/system_daemon
  * 
  */
-class System_Daemon_Options
+class Options
 {
     /**
      * Keep track of active state for all Options
@@ -62,7 +63,7 @@ class System_Daemon_Options
      * 
      * @param array $definitions The predefined option definitions
      */
-    public function __construct($definitions) 
+    public function __construct($definitions)
     {
         if (!is_array($definitions) || !count($definitions)) {
             return false;
@@ -134,7 +135,7 @@ class System_Daemon_Options
     public function setOptions($use_options)
     {
         $success = true;
-        foreach ($use_options as $name=>$value) {
+        foreach ($use_options as $name => $value) {
             if (!$this->setOption($name, $value)) {
                 $success = false;
             }
@@ -160,12 +161,12 @@ class System_Daemon_Options
      *
      * @return mixed integer or boolean
      */
-    public function init($premature=false) 
+    public function init($premature = false)
     {
         // If already initialized, skip
         if (!$premature && $this->isInitialized()) {
             return true;
-        }        
+        }
         
         $options_met = 0;
         
@@ -179,7 +180,7 @@ class System_Daemon_Options
                     $this->errors[] = 'Required option: '.$name.
                         ' not set. No default value available either.';
                     return false;
-                } 
+                }
             }
             
             $options_met++;
@@ -224,109 +225,109 @@ class System_Daemon_Options
         // Loop over main & subtypes to detect matching format
         if (!$reason) {
             $type_valid = false;
-            foreach ($_allowedTypes as $type_a=>$sub_types) {
+            foreach ($_allowedTypes as $type_a => $sub_types) {
                 foreach ($sub_types as $type_b) {
                     
                     // Determine range based on subtype
-                    // Range is used to contain an integer or strlen 
+                    // Range is used to contain an integer or strlen
                     // between min-max
                     $parts = explode("-", $type_b);
                     $from  = $to = false;
-                    if (count($parts) == 2 ) {
+                    if (count($parts) == 2) {
                         $from   = $parts[0];
                         $to     = $parts[1];
                         $type_b = "range";
                     }
             
                     switch ($type_a) {
-                    case "boolean":
-                        $type_valid = is_bool($value);
-                        break;
-                    case "object":
-                        $type_valid = is_object($value) || is_resource($value);
-                        break;
-                    case "string":
-                        switch ($type_b) {
-                        case "email":
-                            $exp  = "/^[a-z0-9]+([._-][a-z0-9]+)*@([a-z0-9]+";
-                            $exp .= "([._-][a-z0-9]+))+$/";
-                            if (preg_match($exp, $value)) {
-                                $type_valid = true;
-                            }
+                        case "boolean":
+                            $type_valid = is_bool($value);
                             break;
-                        case "unix":
-                            if ($this->strIsUnix($value)) {
-                                $type_valid = true;
-                            }
+                        case "object":
+                            $type_valid = is_object($value) || is_resource($value);
                             break;
-                        case "unix_filepath":
-                            if ($this->strIsUnixFile($value)) {
-                                $type_valid = true;
-                            }
-                            break;
-                        case "existing_dirpath":
-                            if (is_dir($value)) {
-                                $type_valid = true;
-                            }
-                            break;
-                        case "existing_filepath":
-                            if (is_file($value)) {
-                                $type_valid = true;
-                            }
-                            break;
-                        case "creatable_filepath":
-                            if (is_dir(dirname($value)) 
-                                && is_writable(dirname($value))
-                            ) {
-                                $type_valid = true;
-                            }
-                            break;
-                        case "normal":
-                        default: 
-                            // String?
-                            if (!is_resource($value)
-                                && !is_array($value)
-                                && !is_object($value)
-                            ) {
-                                // Range?
-                                if ($from === false && $to === false) {
-                                    $type_valid = true;
-                                } else {
-                                    // Enfore range as well
-                                    if (strlen($value) >= $from 
-                                        && strlen($value) <= $to
+                        case "string":
+                            switch ($type_b) {
+                                case "email":
+                                    $exp  = "/^[a-z0-9]+([._-][a-z0-9]+)*@([a-z0-9]+";
+                                    $exp .= "([._-][a-z0-9]+))+$/";
+                                    if (preg_match($exp, $value)) {
+                                        $type_valid = true;
+                                    }
+                                    break;
+                                case "unix":
+                                    if ($this->strIsUnix($value)) {
+                                        $type_valid = true;
+                                    }
+                                    break;
+                                case "unix_filepath":
+                                    if ($this->strIsUnixFile($value)) {
+                                        $type_valid = true;
+                                    }
+                                    break;
+                                case "existing_dirpath":
+                                    if (is_dir($value)) {
+                                        $type_valid = true;
+                                    }
+                                    break;
+                                case "existing_filepath":
+                                    if (is_file($value)) {
+                                        $type_valid = true;
+                                    }
+                                    break;
+                                case "creatable_filepath":
+                                    if (is_dir(dirname($value))
+                                        && is_writable(dirname($value))
                                     ) {
                                         $type_valid = true;
                                     }
-                                }
+                                    break;
+                                case "normal":
+                                default:
+                                    // String?
+                                    if (!is_resource($value)
+                                        && !is_array($value)
+                                        && !is_object($value)
+                                    ) {
+                                        // Range?
+                                        if ($from === false && $to === false) {
+                                            $type_valid = true;
+                                        } else {
+                                            // Enfore range as well
+                                            if (strlen($value) >= $from
+                                                && strlen($value) <= $to
+                                            ) {
+                                                $type_valid = true;
+                                            }
+                                        }
+                                    }
+                                    break;
                             }
                             break;
-                        }
-                        break;
-                    case "number":
-                        switch ($type_b) {
-                        default:
-                        case "normal":
-                            // Numeric?
-                            if (is_numeric($value)) {
-                                // Range ?
-                                if ($from === false && $to === false) {
-                                    $type_valid = true;
-                                } else {
-                                    // Enfore range as well
-                                    if ($value >= $from && $value <= $to) {
-                                        $type_valid = true;
+                        case "number":
+                            switch ($type_b) {
+                                default:
+                                case "normal":
+                                    // Numeric?
+                                    if (is_numeric($value)) {
+                                        // Range ?
+                                        if ($from === false && $to === false) {
+                                            $type_valid = true;
+                                        } else {
+                                            // Enfore range as well
+                                            if ($value >= $from && $value <= $to) {
+                                                $type_valid = true;
+                                            }
+                                        }
                                     }
-                                }
+                                    break;
                             }
-                            break;                            
-                        }
-                        break;
-                    default:
-                        $this->errors[] =  "Type ".
-                            $type_a." not defined";
-                        break;
-                    }                
+                            break;
+                        default:
+                            $this->errors[] =  "Type ".
+                                $type_a." not defined";
+                            break;
+                    }
                 }
             }
         }
@@ -355,7 +356,7 @@ class System_Daemon_Options
     {
         if (!isset($this->_definitions[$name])) {
             return false;
-        }        
+        }
         $definition = $this->_definitions[$name];
 
         if (!isset($definition["type"])) {
@@ -366,7 +367,7 @@ class System_Daemon_Options
         }
         
         // Compile array of allowd main & subtypes
-        $_allowedTypes = $this->_allowedTypes($definition["type"]);        
+        $_allowedTypes = $this->_allowedTypes($definition["type"]);
         
         $type  = $definition["type"];
         $value = $definition["default"];
@@ -375,14 +376,14 @@ class System_Daemon_Options
             // Replace variables
             $value = preg_replace_callback(
                 '/\{([^\{\}]+)\}/is',
-                array($this, "replaceVars"), 
+                array($this, "replaceVars"),
                 $value
             );
             
             // Replace functions
             $value = preg_replace_callback(
                 '/\@([\w_]+)\(([^\)]+)\)/is',
-                array($this, "replaceFuncs"), 
+                array($this, "replaceFuncs"),
                 $value
             );
         }
@@ -402,7 +403,7 @@ class System_Daemon_Options
     {
         // Init
         $allowedVars = array(
-            "SERVER.SCRIPT_NAME", 
+            "SERVER.SCRIPT_NAME",
             "OPTIONS.*",
         );
         $filterVars  = array(
@@ -425,7 +426,7 @@ class System_Daemon_Options
         $var_key            = $source.".".$var;
         
         // Allowed
-        if (!in_array($var_key, $allowedVars) 
+        if (!in_array($var_key, $allowedVars)
             && !in_array($source.".*", $allowedVars)
         ) {
             return $fullmatch; // "FORBIDDEN_VAR_".$var_key;
@@ -435,7 +436,7 @@ class System_Daemon_Options
         if ($source == "SERVER") {
             $source_use = &$_SERVER;
         } elseif ($source == "OPTIONS") {
-            $source_use = &$this->_options; 
+            $source_use = &$this->_options;
         } else {
             $source_use = false;
         }
@@ -458,9 +459,9 @@ class System_Daemon_Options
                 }
                 $var_use = call_user_func($filter_function, $var_use);
             }
-        }        
+        }
         
-        return $var_use;        
+        return $var_use;
     }
     
     /**
@@ -482,11 +483,11 @@ class System_Daemon_Options
         $arguments = $matches;
         
         if (!in_array($function, $allowedFunctions)) {
-            return "FORBIDDEN_FUNCTION_".$function;            
+            return "FORBIDDEN_FUNCTION_".$function;
         }
         
         if (!function_exists($function)) {
-            return "NONEXISTING_FUNCTION_".$function; 
+            return "NONEXISTING_FUNCTION_".$function;
         }
         
         return call_user_func_array($function, $arguments);
@@ -508,11 +509,11 @@ class System_Daemon_Options
             $type_a       = array_shift($raw_subtypes);
             if (!count($raw_subtypes)) {
                 $raw_subtypes = array("normal");
-            } 
+            }
             $allowed_types[$type_a] = $raw_subtypes;
         }
         return $allowed_types;
-    }    
+    }
     
 
     /**
@@ -523,7 +524,7 @@ class System_Daemon_Options
      *
      * @return boolean
      */
-    protected function strIsUnixFile( $str )
+    protected function strIsUnixFile($str)
     {
         return preg_match('/^[a-z0-9_\.\/\-]+$/', $str);
     }
@@ -535,8 +536,8 @@ class System_Daemon_Options
      * @param string $str What string to test for unix compliance
      * 
      * @return boolean
-     */   
-    protected function strIsUnix( $str )
+     */
+    protected function strIsUnix($str)
     {
         return preg_match('/^[a-z0-9_]+$/', $str);
     }
@@ -549,7 +550,7 @@ class System_Daemon_Options
      * 
      * @return string
      */
-    protected function strToUnix( $str )
+    protected function strToUnix($str)
     {
         return preg_replace('/[^0-9a-z_]/', '', strtolower($str));
     }

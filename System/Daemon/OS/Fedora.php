@@ -1,5 +1,6 @@
 <?php
-/* vim: set noai expandtab tabstop=4 softtabstop=4 shiftwidth=4: */
+namespace System\Daemon\OS;
+
 /**
  * System_Daemon turns PHP-CLI scripts into daemons.
  *
@@ -27,7 +28,7 @@
  * @link      http://trac.plutonia.nl/projects/system_daemon
  * *
  */
-class System_Daemon_OS_Fedora extends System_Daemon_OS_RedHat
+class Fedora extends RedHat
 {
     /**
      * On Linux, a distro-specific version file is often telling us enough
@@ -66,5 +67,4 @@ class System_Daemon_OS_Fedora extends System_Daemon_OS_RedHat
         '@pid_file@'  => '{PROPERTIES.appPidLocation}',
         '@chkconfig@' => '{PROPERTIES.appChkConfig}',
     );
-
 }

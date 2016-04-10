@@ -1,5 +1,6 @@
 <?php
-/* vim: set noai expandtab tabstop=4 softtabstop=4 shiftwidth=4: */
+namespace System\Daemon\OS;
+
 /**
  * System_Daemon turns PHP-CLI scripts into daemons.
  * 
@@ -26,7 +27,7 @@
  * @link      http://trac.plutonia.nl/projects/system_daemon
  * * 
  */
-class System_Daemon_OS_BSD extends System_Daemon_OS
+class BSD extends OS
 {
     /**
      * Template path
@@ -40,7 +41,7 @@ class System_Daemon_OS_BSD extends System_Daemon_OS
      *
      * @return boolean
      */
-    public function isInstalled() 
+    public function isInstalled()
     {
         if (!stristr(PHP_OS, "Darwin")
             && !stristr(PHP_OS, "BSD")) {
@@ -49,5 +50,4 @@ class System_Daemon_OS_BSD extends System_Daemon_OS
         
         return true;
     }
-    
 }

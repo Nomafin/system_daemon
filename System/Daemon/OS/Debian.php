@@ -1,5 +1,6 @@
 <?php
-/* vim: set noai expandtab tabstop=4 softtabstop=4 shiftwidth=4: */
+namespace System\Daemon\OS;
+
 /**
  * System_Daemon turns PHP-CLI scripts into daemons.
  * 
@@ -26,7 +27,7 @@
  * @link      http://trac.plutonia.nl/projects/system_daemon
  * * 
  */
-class System_Daemon_OS_Debian extends System_Daemon_OS_Linux
+class Debian extends Linux
 {
     /**
      * On Linux, a distro-specific version file is often telling us enough
@@ -58,5 +59,4 @@ class System_Daemon_OS_Debian extends System_Daemon_OS_Linux
         '@pid_file@'     => '{PROPERTIES.appPidLocation}',
         '@chkconfig@'    => '{PROPERTIES.appChkConfig}',
     );
-    
 }

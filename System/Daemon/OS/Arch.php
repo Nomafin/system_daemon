@@ -1,5 +1,6 @@
 <?php
-/* vim: set noai expandtab tabstop=4 softtabstop=4 shiftwidth=4: */
+namespace System\Daemon\OS;
+
 /**
  * System_Daemon turns PHP-CLI scripts into daemons.
  *
@@ -26,7 +27,7 @@
  * @link      http://trac.plutonia.nl/projects/system_daemon
  * *
  */
-class System_Daemon_OS_Arch extends System_Daemon_OS_Ubuntu
+class Arch extends Ubuntu
 {
     /**
      * On Linux, a distro-specific version file is often telling us enough
@@ -77,5 +78,4 @@ class System_Daemon_OS_Arch extends System_Daemon_OS_Ubuntu
         }
         return false;
     }
-
 }
