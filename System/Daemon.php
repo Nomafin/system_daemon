@@ -2,6 +2,8 @@
 namespace System;
 
 use System\Daemon\DaemonException;
+use System\Daemon\OS;
+use System\Daemon\Options;
 
 /**
  * Daemon turns PHP-CLI scripts into daemons.
@@ -394,39 +396,39 @@ class Daemon
      * @see setSigHandler()
      */
     static protected $_sigHandlers = array(
-        SIGHUP => array('Daemon', 'defaultSigHandler'),
-        SIGINT => array('Daemon', 'defaultSigHandler'),
-        SIGQUIT => array('Daemon', 'defaultSigHandler'),
-        SIGILL => array('Daemon', 'defaultSigHandler'),
-        SIGTRAP => array('Daemon', 'defaultSigHandler'),
-        SIGABRT => array('Daemon', 'defaultSigHandler'),
-        'SIGIOT' => array('Daemon', 'defaultSigHandler'),
-        SIGBUS => array('Daemon', 'defaultSigHandler'),
-        SIGFPE => array('Daemon', 'defaultSigHandler'),
-        SIGUSR1 => array('Daemon', 'defaultSigHandler'),
-        SIGSEGV => array('Daemon', 'defaultSigHandler'),
-        SIGUSR2 => array('Daemon', 'defaultSigHandler'),
+        SIGHUP => array('System\Daemon', 'defaultSigHandler'),
+        SIGINT => array('System\Daemon', 'defaultSigHandler'),
+        SIGQUIT => array('System\Daemon', 'defaultSigHandler'),
+        SIGILL => array('System\Daemon', 'defaultSigHandler'),
+        SIGTRAP => array('System\Daemon', 'defaultSigHandler'),
+        SIGABRT => array('System\Daemon', 'defaultSigHandler'),
+        'SIGIOT' => array('System\Daemon', 'defaultSigHandler'),
+        SIGBUS => array('System\Daemon', 'defaultSigHandler'),
+        SIGFPE => array('System\Daemon', 'defaultSigHandler'),
+        SIGUSR1 => array('System\Daemon', 'defaultSigHandler'),
+        SIGSEGV => array('System\Daemon', 'defaultSigHandler'),
+        SIGUSR2 => array('System\Daemon', 'defaultSigHandler'),
         SIGPIPE => SIG_IGN,
-        SIGALRM => array('Daemon', 'defaultSigHandler'),
-        SIGTERM => array('Daemon', 'defaultSigHandler'),
-        'SIGSTKFLT' => array('Daemon', 'defaultSigHandler'),
-        'SIGCLD' => array('Daemon', 'defaultSigHandler'),
-        'SIGCHLD' => array('Daemon', 'defaultSigHandler'),
-        SIGCONT => array('Daemon', 'defaultSigHandler'),
-        SIGTSTP => array('Daemon', 'defaultSigHandler'),
-        SIGTTIN => array('Daemon', 'defaultSigHandler'),
-        SIGTTOU => array('Daemon', 'defaultSigHandler'),
-        SIGURG => array('Daemon', 'defaultSigHandler'),
-        SIGXCPU => array('Daemon', 'defaultSigHandler'),
-        SIGXFSZ => array('Daemon', 'defaultSigHandler'),
-        SIGVTALRM => array('Daemon', 'defaultSigHandler'),
-        SIGPROF => array('Daemon', 'defaultSigHandler'),
-        SIGWINCH => array('Daemon', 'defaultSigHandler'),
-        'SIGPOLL' => array('Daemon', 'defaultSigHandler'),
-        SIGIO => array('Daemon', 'defaultSigHandler'),
-        'SIGPWR' => array('Daemon', 'defaultSigHandler'),
-        'SIGSYS' => array('Daemon', 'defaultSigHandler'),
-        SIGBABY => array('Daemon', 'defaultSigHandler'),
+        SIGALRM => array('System\Daemon', 'defaultSigHandler'),
+        SIGTERM => array('System\Daemon', 'defaultSigHandler'),
+        'SIGSTKFLT' => array('System\Daemon', 'defaultSigHandler'),
+        'SIGCLD' => array('System\Daemon', 'defaultSigHandler'),
+        'SIGCHLD' => array('System\Daemon', 'defaultSigHandler'),
+        SIGCONT => array('System\Daemon', 'defaultSigHandler'),
+        SIGTSTP => array('System\Daemon', 'defaultSigHandler'),
+        SIGTTIN => array('System\Daemon', 'defaultSigHandler'),
+        SIGTTOU => array('System\Daemon', 'defaultSigHandler'),
+        SIGURG => array('System\Daemon', 'defaultSigHandler'),
+        SIGXCPU => array('System\Daemon', 'defaultSigHandler'),
+        SIGXFSZ => array('System\Daemon', 'defaultSigHandler'),
+        SIGVTALRM => array('System\Daemon', 'defaultSigHandler'),
+        SIGPROF => array('System\Daemon', 'defaultSigHandler'),
+        SIGWINCH => array('System\Daemon', 'defaultSigHandler'),
+        'SIGPOLL' => array('System\Daemon', 'defaultSigHandler'),
+        SIGIO => array('System\Daemon', 'defaultSigHandler'),
+        'SIGPWR' => array('System\Daemon', 'defaultSigHandler'),
+        'SIGSYS' => array('System\Daemon', 'defaultSigHandler'),
+        SIGBABY => array('System\Daemon', 'defaultSigHandler'),
     );
 
 
@@ -471,7 +473,7 @@ class Daemon
         self::_optionsInit(true);
 
         if (self::opt('logPhpErrors')) {
-            set_error_handler(array('Daemon', 'phpErrors'), E_ALL);
+            set_error_handler(array('System\Daemon', 'phpErrors'), E_ALL);
         }
 
         // Check the PHP configuration
@@ -828,7 +830,7 @@ class Daemon
     {
         $arguments = func_get_args();
         array_unshift($arguments, __FUNCTION__);
-        call_user_func_array(array('Daemon', '_ilog'), $arguments);
+        call_user_func_array(array('System\Daemon', '_ilog'), $arguments);
         return false;
     }
 
@@ -841,7 +843,7 @@ class Daemon
     {
         $arguments = func_get_args();
         array_unshift($arguments, __FUNCTION__);
-        call_user_func_array(array('Daemon', '_ilog'), $arguments);
+        call_user_func_array(array('System\Daemon', '_ilog'), $arguments);
         return false;
     }
 
@@ -854,7 +856,7 @@ class Daemon
     {
         $arguments = func_get_args();
         array_unshift($arguments, __FUNCTION__);
-        call_user_func_array(array('Daemon', '_ilog'), $arguments);
+        call_user_func_array(array('System\Daemon', '_ilog'), $arguments);
         return false;
     }
 
@@ -867,7 +869,7 @@ class Daemon
     {
         $arguments = func_get_args();
         array_unshift($arguments, __FUNCTION__);
-        call_user_func_array(array('Daemon', '_ilog'), $arguments);
+        call_user_func_array(array('System\Daemon', '_ilog'), $arguments);
         return false;
     }
 
@@ -880,7 +882,7 @@ class Daemon
     {
         $arguments = func_get_args();
         array_unshift($arguments, __FUNCTION__);
-        call_user_func_array(array('Daemon', '_ilog'), $arguments);
+        call_user_func_array(array('System\Daemon', '_ilog'), $arguments);
         return false;
     }
 
@@ -893,7 +895,7 @@ class Daemon
     {
         $arguments = func_get_args();
         array_unshift($arguments, __FUNCTION__);
-        call_user_func_array(array('Daemon', '_ilog'), $arguments);
+        call_user_func_array(array('System\Daemon', '_ilog'), $arguments);
         return true;
     }
 
@@ -906,7 +908,7 @@ class Daemon
     {
         $arguments = func_get_args();
         array_unshift($arguments, __FUNCTION__);
-        call_user_func_array(array('Daemon', '_ilog'), $arguments);
+        call_user_func_array(array('System\Daemon', '_ilog'), $arguments);
         return true;
     }
 
@@ -919,7 +921,7 @@ class Daemon
     {
         $arguments = func_get_args();
         array_unshift($arguments, __FUNCTION__);
-        call_user_func_array(array('Daemon', '_ilog'), $arguments);
+        call_user_func_array(array('System\Daemon', '_ilog'), $arguments);
         return true;
     }
 
@@ -1643,7 +1645,7 @@ class Daemon
     {
         // Create Option Object if nescessary
         if (!self::$_osObj) {
-            self::$_osObj = Daemon_OS::factory();
+            self::$_osObj = OS::factory();
         }
 
         // Still false? This was an error!
@@ -1663,7 +1665,7 @@ class Daemon
     {
         // Create Option Object if nescessary
         if (!self::$_optObj) {
-            self::$_optObj = new Daemon_Options(self::$_optionDefinitions);
+            self::$_optObj = new Options(self::$_optionDefinitions);
         }
 
         // Still false? This was an error!
